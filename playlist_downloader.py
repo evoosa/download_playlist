@@ -1,6 +1,7 @@
 import os.path
+import shutil
 
-from consts import PLAYLISTS, BASE_DIR, SPOTIFY_BASE_URL
+from consts import PLAYLISTS, BASE_DIR, SPOTIFY_BASE_URL, ERAS
 import glob
 from datetime import datetime
 from utils import get_logger
@@ -8,6 +9,7 @@ from savify import Savify
 from savify.types import Type, Format, Quality
 from savify.utils import PathHolder
 import dotenv
+from mutagen.easyid3 import EasyID3
 
 current_date = datetime.now().strftime('%d_%m_%Y')
 dotenv.load_dotenv()
@@ -85,3 +87,21 @@ class PlaylistDownloader:
     def backup_playlists_to_external_drive(self, drive_letter):
         """ backup the downloaded playlists to the given external drive """
         pass
+
+    def sort_songs_by_era(self, playlist_key):
+        """ sort the songs in the given directory by era, output to a subdirectory """
+        output_dir = os.path.join(self.base_output_dir, playlist_key)
+        self.logger.info(f"sorting: {output_dir}")
+        for track_path in glob.glob(f"{output_dir}/*"):
+            try:
+                release_year = (EasyID3(track_path)['date'][0][:4])
+                for era in ERAS.keys():
+                    if int(release_year) in ERAS[era]:
+                        era_subdir = os.path.join(output_dir, era)
+                        if not os.path.exists(era_subdir):
+                            os.makedirs(era_subdir)
+                            self.logger.info(f"created era subdir: {era_subdir}")
+                        shutil.move(track_path, era_subdir)
+                        self.logger.debug(f"moved {track_path} to era subdir: {era}")
+            except Exception as e:
+                self.logger.error(f"pasten... {e}")

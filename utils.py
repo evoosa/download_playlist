@@ -1,4 +1,13 @@
 import logging
+import argparse
+
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--sort-by-era', action='store_true', help='sort the playlist tracks by era')
+    parser.add_argument('-k', '--playlist-key', type=str, help='the playlist\'s key')
+    parser.add_argument('-d', '--download-playlist', action='store_true', help='download the playlist')
+    return parser.parse_args()
 
 
 def get_logger(log_file_path):
