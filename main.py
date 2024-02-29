@@ -1,4 +1,3 @@
-import os
 import sys
 
 from playlist_downloader import PlaylistDownloader
