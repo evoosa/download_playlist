@@ -45,6 +45,7 @@ class PlaylistDownloader:
         self._delete_empty_files(filenames, output_dir)
 
     def _download_playlist(self, output_dir, playlist_url):
+        """ download a playlist using savify """
         self.logger.info(f"downloading playlist to {output_dir}")
         savify = Savify(api_credentials=(
             os.environ.get("SPOTIPY_CLIENT_ID"),
@@ -58,6 +59,7 @@ class PlaylistDownloader:
         self.logger.info(f"done downloading playlist!")
 
     def _get_filenames(self, glob_pattern):
+        """ get all filenames under the supplied glob search pattern """
         filenames = []
         for filepath in glob.glob(glob_pattern):
             filenames.append(os.path.basename(filepath))
@@ -65,6 +67,7 @@ class PlaylistDownloader:
         return filenames
 
     def _delete_empty_files(self, filenames, output_dir):
+        """ delete the empty files we created to prevent duplicate downloads """
         for filename in filenames:
             file_to_del = os.path.join(output_dir, filename)
             if os.path.exists(file_to_del):
@@ -72,6 +75,7 @@ class PlaylistDownloader:
         self.logger.info(f"deleted {len(filenames)} empty files")
 
     def _create_empty_files(self, filenames, output_dir):
+        """ create empty files so savify won't re-download them """
         for filename in filenames:
             output_file_path = os.path.join(output_dir, filename)
             with open(output_file_path, 'w'):
