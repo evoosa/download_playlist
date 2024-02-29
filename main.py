@@ -1,3 +1,5 @@
+import os
+
 from playlist_downloader import PlaylistDownloader
 
 if __name__ == '__main__':
