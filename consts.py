@@ -1,5 +1,6 @@
 SPOTIFY_BASE_URL = "https://open.spotify.com/playlist/"
 BASE_DIR = r"C:\Users\eva\Desktop\Music"
+DATA_DIR = ".data"
 
 PLAYLISTS = {
     "good_old_childhood": {
@@ -29,6 +30,14 @@ PLAYLISTS = {
     "french_electronica": {
         "playlist_id": "2d7YFJbRsL0Ufy8vcIAKhr",
         "search_pattern": "my_music/French Electronica/*"
+    },
+    "russian_stuff": {
+        "playlist_id": "2tQQ1p6N0n5VkOuuawCEjQ",
+        "search_pattern": "FRENS/KRGCHV/*"
+    },
+    "emo_stuff": {
+        "playlist_id": "0Ye5BHf9vAZLE73hQHbrWl",
+        "search_pattern": "Emo/*"
     }
 }
 

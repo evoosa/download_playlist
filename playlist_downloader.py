@@ -1,10 +1,10 @@
 import os.path
 import shutil
 
-from consts import PLAYLISTS, BASE_DIR, SPOTIFY_BASE_URL, ERAS
+from consts import PLAYLISTS, BASE_DIR, SPOTIFY_BASE_URL, ERAS, DATA_DIR
 import glob
 from datetime import datetime
-from utils import get_logger
+from utils import get_logger, unwindows
 from savify import Savify
 from savify.types import Type, Format, Quality
 from savify.utils import PathHolder
@@ -54,7 +54,11 @@ class PlaylistDownloader:
             os.environ.get("SPOTIPY_CLIENT_SECRET")),
             quality=Quality.BEST,
             download_format=Format.MP3,
-            path_holder=PathHolder(downloads_path=output_dir),
+            path_holder=PathHolder(
+                downloads_path=output_dir,
+                data_path=os.path.join(output_dir, DATA_DIR)
+            ),
+
             logger=get_logger(f"{output_dir}_{current_date}.log")
         )
         savify.download(playlist_url, query_type=Type.PLAYLIST)
@@ -84,9 +88,29 @@ class PlaylistDownloader:
                 pass
         self.logger.info(f"created {len(filenames)} empty files")
 
-    def backup_playlists_to_external_drive(self, drive_letter):
-        """ backup the downloaded playlists to the given external drive """
-        pass
+    def backup_playlists(self, src_path, dest_path):
+        """ backup the downloaded playlists to the given destination (can be an external drive) """
+
+        def backup_track(track_name: str, src_dir: str, dest_dir: str):
+            """ backup tracks to dest dir if they don't exist """
+            dest_track_path = unwindows(os.path.join(dest_dir, track_name))
+            if os.path.exists(dest_track_path):
+                self.logger.debug(f"track {dest_track_path} exists in dest, not copying..")
+            else:
+                shutil.copy(unwindows(os.path.join(src_dir, track_name)), dest_track_path)
+                self.logger.info(f"copied track to {dest_track_path}")
+
+        for p in os.listdir(src_path):
+            if p != DATA_DIR:
+                path = unwindows(os.path.join(src_path, p))
+                # if we're in a subdirectory, backup it's contents
+                if os.path.isdir(path):
+                    self.logger.debug(f"{p} is subdir, diving in..")
+                    for track in os.listdir(path):
+                        backup_track(track, path, unwindows(os.path.join(dest_path, p)))
+                # if it's a file, back it up
+                else:
+                    backup_track(p, src_path, dest_path)
 
     def sort_songs_by_era(self, playlist_key):
         """ sort the songs in the given directory by era, output to a subdirectory """
