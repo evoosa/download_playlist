@@ -1,9 +1,15 @@
 import logging
 import argparse
+import os
 
 
 def unwindows(string):
     return string.replace("\\", "/")
+
+
+def create_dir_if_missing(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
 def get_args():

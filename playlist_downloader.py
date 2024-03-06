@@ -4,7 +4,7 @@ import shutil
 from consts import PLAYLISTS, BASE_DIR, SPOTIFY_BASE_URL, ERAS, DATA_DIR
 import glob
 from datetime import datetime
-from utils import get_logger, unwindows
+from utils import get_logger, unwindows, create_dir_if_missing
 from savify import Savify
 from savify.types import Type, Format, Quality
 from savify.utils import PathHolder
@@ -100,14 +100,17 @@ class PlaylistDownloader:
                 shutil.copy(unwindows(os.path.join(src_dir, track_name)), dest_track_path)
                 self.logger.info(f"copied track to {dest_track_path}")
 
+        create_dir_if_missing(dest_path)
         for p in os.listdir(src_path):
             if p != DATA_DIR:
                 path = unwindows(os.path.join(src_path, p))
                 # if we're in a subdirectory, backup it's contents
                 if os.path.isdir(path):
                     self.logger.debug(f"{p} is subdir, diving in..")
+                    dest_subdir = unwindows(os.path.join(dest_path, p))
+                    create_dir_if_missing(dest_subdir)
                     for track in os.listdir(path):
-                        backup_track(track, path, unwindows(os.path.join(dest_path, p)))
+                        backup_track(track, path, dest_subdir)
                 # if it's a file, back it up
                 else:
                     backup_track(p, src_path, dest_path)
