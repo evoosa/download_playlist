@@ -5,11 +5,11 @@ DATA_DIR = ".data"
 PLAYLISTS = {
     "good_old_childhood": {
         "playlist_id": "2qCYYjwroRfhIPmSPimh89",
-        "search_pattern": "*0s/*/*"
+        "search_pattern": "*0s/*"
     },
     "80s_gemz": {
         "playlist_id": "73RR96vE1uMrv45eanG1ZK",
-        "search_pattern": "*0s/*/*"
+        "search_pattern": "*0s/*"
     },
     "adrenaline_junky": {
         "playlist_id": "4Rn9KOaqlzQ0KR054VvHNl",

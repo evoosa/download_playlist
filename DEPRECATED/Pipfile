@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+savify = "*"
+mutagen = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.8"
+savify = "2.3.4"
+python-dotenv = "1.0.1"
+mutagen = "1.47.0"
+
+# if youtube-dl causes trouble, run this command:
+# pip install --force-reinstall "https://github.com/ytdl-org/ytdl-nightly/releases/download/2023.12.07/youtube-dl-2023.12.07.tar.gz"

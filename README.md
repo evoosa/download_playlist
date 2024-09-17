@@ -1,18 +1,17 @@
-# usage
+# Download Spotify/Youtube Playlist from CSV
 
-```shell
-# download the playlist and sort it by era
-python main.py -k all_time_favs -d -s
+## example:
 
-# sort playlist by era
-python main.py -k all_time_favs -s
+1. download the playlist's CSV from:
+    * Exportify (spotify playlists)
+    * https://www.tunemymusic.com/transfer/youtube-to-file (youtube playlists)
 
-# download playlist
-python main.py -k all_time_favs -s
+2. open it in google sheets and save to convert to utf-8
+    * arrange it: [1]track, [3]artist, [5]album
 
-# backup a directory with tracks
-python main.py -b \ 
-  --src-dir "C:/Users/eva/Desktop/Music/new_music_06_03_2024/adrenaline_junky" \
-  --dest-dir "D:/Music/my_music/adrenaline_junky
-"
-```
+3. fix: "playlist_name", "GENRE"
+
+4. download the tracks by running:
+   ```
+   ./download_playlist.py
+   ```
