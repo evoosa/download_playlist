@@ -4,12 +4,12 @@ import csv
 import os
 import sys
 
-GENRE = "REPLACE"
-playlist_name = "REPLACE"
+GENRE = "FIXME"
+playlist_name = "FIXME"
 # playlist_name = sys.argv[1]
 
-csv_path = fr"C:\Users\eva\Desktop\Music\commands\CSVs\{playlist_name}.csv"
-output_dir = fr"C:\Users\eva\Desktop\Music\commands\output_dirs\{playlist_name}"
+csv_path = fr".\csvs\{playlist_name}.csv"
+output_dir = fr".\output_dirs\{playlist_name}"
 
 # create output dir if missing
 if not os.path.exists(output_dir):
@@ -32,14 +32,11 @@ for item in data[1:]:
         untagged_mp3_path = f"{output_dir}/{filename}.untagged.mp3"
         untagged_wav_path = f"{output_dir}/{filename}.untagged.wav"
         mp3_path = f"{output_dir}/{filename}.mp3"
-        f_search = bytes(search, 'utf-8').decode('cp1252', 'ignore')
-        # f_search = bytes(search, 'utf-8').decode('cp1252', 'ignore')
 
         if not os.path.exists(mp3_path):
             # download the audio as a temporary mp3 file
             print(f"DOWNLOADING MP3: {untagged_mp3_path}")
             ydl_cmd = f'yt-dlp.exe "ytsearch1:{search}" -f ba --max-filesize 100m --extract-audio --audio-format mp3 -o "{untagged_mp3_path}"'
-            # ydl_cmd = f'yt-dlp.exe "ytsearch1:{f_search}" -f ba --max-filesize 100m --extract-audio --audio-format mp3 -o "{untagged_mp3_path}"'
             os.system(ydl_cmd)
 
             # if file is a wav, convert it to mp3
@@ -61,4 +58,3 @@ for item in data[1:]:
 
     except Exception as e:
         print(f"ERROR: {e}")
-        # print("FAILED, SKIPPING")
