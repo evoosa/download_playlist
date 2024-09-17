@@ -1,5 +1,7 @@
 # my stuff
 TODO
+csvs/
+output_dirs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
