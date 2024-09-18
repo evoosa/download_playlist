@@ -3,13 +3,18 @@
 import csv
 import os
 import sys
+import io
 
-GENRE = "FIXME"
-playlist_name = "FIXME"
+GENRE = "vlaskin"
+playlist_name = "vlaskin"
 # playlist_name = sys.argv[1]
+# GENRE = playlist_name
 
 csv_path = fr".\csvs\{playlist_name}.csv"
 output_dir = fr".\output_dirs\{playlist_name}"
+
+# Set the system default encoding to UTF-8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # create output dir if missing
 if not os.path.exists(output_dir):
@@ -42,13 +47,13 @@ for item in data[1:]:
             # if file is a wav, convert it to mp3
             if os.path.exists(untagged_wav_path):
                 print(f"CONVERTING TO MP3: {untagged_mp3_path}")
-                convert_to_mp3_cmd = f"ffmpeg -i {untagged_wav_path} -codec:a libmp3lame -qscale:a 2 {untagged_wav_path}"
+                convert_to_mp3_cmd = f"ffmpeg -i {untagged_wav_path} -c:a copy -codec:a libmp3lame -qscale:a 2 {untagged_wav_path}"
                 os.system(convert_to_mp3_cmd)
                 os.remove(untagged_wav_path)
 
             # copy and tag the file
             print(f"TAGGING: {mp3_path}")
-            ffmpeg_cmd = f'ffmpeg -i "{untagged_mp3_path}" -id3v2_version 3 -metadata artist="{item[3]}" -metadata album="{item[5]}" -metadata album_artist="{item[7]}" -metadata title="{item[1]}" -metadata genre="{GENRE}" -metadata date="{item[8][:4]}" -hide_banner -loglevel error "{mp3_path}" -y'
+            ffmpeg_cmd = f'ffmpeg -i "{untagged_mp3_path}" -c:a copy -id3v2_version 3 -metadata artist="{item[3]}" -metadata album="{item[5]}" -metadata album_artist="{item[7]}" -metadata title="{item[1]}" -metadata genre="{GENRE}" -metadata date="{item[8][:4]}" -hide_banner -loglevel error "{mp3_path}" -y'
             os.system(ffmpeg_cmd)
 
             # delete the temp file
