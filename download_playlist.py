@@ -5,11 +5,10 @@ import os
 import sys
 import io
 
-GENRE = "vlaskin"
-playlist_name = "vlaskin"
+GENRE = "TEMP"
+playlist_name = "TEMP"
 # playlist_name = sys.argv[1]
 # GENRE = playlist_name
-
 
 csv_path = fr".\csvs\{playlist_name}.csv"
 output_dir = fr".\output_dirs\{playlist_name}"
