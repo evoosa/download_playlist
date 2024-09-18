@@ -10,6 +10,7 @@ playlist_name = "vlaskin"
 # playlist_name = sys.argv[1]
 # GENRE = playlist_name
 
+
 csv_path = fr".\csvs\{playlist_name}.csv"
 output_dir = fr".\output_dirs\{playlist_name}"
 
